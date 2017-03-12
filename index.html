@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		li{
+			list-style: none;
+			float: left;
+			margin: 0 10px;
+			background: red;
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+	<input type="text">
+	<input type="button" value="左侧入" >
+	<input type="button" value="右侧入" >&nbsp;&nbsp;&nbsp;
+	<input type="button" value="左侧出">
+	<input type="button" value="右侧出">
+	<div></div>
+	<ul>
+		
+	</ul>
+	<script>
+		var aIn = document.getElementsByTagName('input');
+		var oUl = document.getElementsByTagName('ul')[0];
+		var oDiv = document.getElementsByTagName('div')[0];
+		var arr = [];
+		var onoff = false;
+		var len = 0;
+		var ali = document.getElementsByTagName('li');
+		aIn[1].onclick = function () {
+			onoff = true;
+			oDiv.innerHTML = '';
+			if(isNum()){
+				arr.unshift(aIn[0].value);
+				oUl.innerHTML = '<li>' + arr[0] + '</li>' + oUl.innerHTML;
+			}else{
+				oDiv.innerHTML = '请输入数字！';
+			} 
+			aIn[0].value = '';
+			slic();
+		}
+		aIn[2].onclick = function () {
+			oDiv.innerHTML = '';
+			if(isNum()) {
+				arr.push(aIn[0].value);
+				oUl.innerHTML += '<li>' + arr[arr.length -1] + '</li>'
+			}else{
+				oDiv.innerHTML = '请输入数字！';
+			} 
+			aIn[0].value = '';
+			slic();
+		}
+		aIn[3].onclick = function () {
+			var str = '';
+			oDiv.innerHTML = '';
+			if(arr.length == 0){
+				oDiv.innerHTML = '没有更多的元素了！';
+			}else{
+				arr.shift();
+				for(var i=0;i<arr.length;i++){
+					str += '<li>' + arr[i] + '</li>';
+				}
+				oUl.innerHTML = str;
+				slic();
+			}
+			
+		}
+		aIn[4].onclick = function () {
+			var str = '';
+			oDiv.innerHTML = '';
+			if(arr.length == 0){
+				oDiv.innerHTML = '没有更多的元素了！';
+			}else{
+				arr.pop();
+				for(var i=0;i<arr.length;i++){
+					str += '<li>' + arr[i] + '</li>';
+				}
+				oUl.innerHTML = str;
+				slic();
+			}
+		}
+	
+
+		function slic() {
+			var len = ali.length;
+			for(var i=0;i<len;i++){
+				ali[i].index = i;
+			ali[i].onclick = function () {
+				var str = '';
+				arr.splice(this.index,1);
+				for(var j=0;j<arr.length;j++){
+					str += '<li>' + arr[j] + '</li>';
+				}
+				oUl.innerHTML = str;
+			}
+		}
+	};
+
+
+
+		//判断输入的值是否为数字的函数
+		function isNum() {
+			var re = /^[0-9]+$/g;
+			var str = aIn[0].value;
+			if(re.test(str)){
+				return true;
+			}else{
+				return false;
+			}
+		}
+	</script>
+</body>
+</html>
